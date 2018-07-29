@@ -23,7 +23,7 @@ f <- matrix(0, zMax, N + 1) # + 1 corresponds to the 0 as the initial index for 
 x <- matrix(0, zMax, N + 1)
 
 for (i in 1:N){
-   z <- 1
+  z <- 1
   print(i)
   
   while (z <= zMax){
@@ -46,25 +46,25 @@ for (i in 1:N){
     
     if (length(maximizingX) > 1 ){  
       
-        wWith0 <- c(0, w) 
+      wWith0 <- c(0, w) 
       
-        x[z , i + 1] <- maximizingX[(which(wWith0[maximizingX] == min(wWith0[maximizingX]) ) )] - 1 # -1 corresponds to the zero which is also availale there
-        f[z , i + 1] <- max(auxiliary, na.rm = TRUE)
-    
+      x[z , i + 1] <- maximizingX[(which(wWith0[maximizingX] == min(wWith0[maximizingX]) ) )] - 1 # -1 corresponds to the zero which is also availale there
+      f[z , i + 1] <- max(auxiliary, na.rm = TRUE)
+      
     } else {
-    
-        x[z , i + 1] <- which(auxiliary == max(auxiliary, na.rm = TRUE) ) - 1
+      
+      x[z , i + 1] <- which(auxiliary == max(auxiliary, na.rm = TRUE) ) - 1
+      
+      # if we use some value function obtainable from the items of the previous (i-1) types,
+      # then we need to copy the history of their choices as well
+      
+      if (z - (w[i] * x[z , i + 1]) > 0) {
         
-        # if we use some value function obtainable from the items of the previous (i-1) types,
-        # then we need to copy the history of their choices as well
+        x[z, 1:i] = x[z - (w[i] * x[z , i + 1]), 1:i]
         
-        if (z - (w[i] * x[z , i + 1]) > 0) {
-        
-          x[z, 1:i] = x[z - (w[i] * x[z , i + 1]), 1:i]
-        
-        }
-        
-        f[z , i + 1] <- max(auxiliary, na.rm = TRUE)
+      }
+      
+      f[z , i + 1] <- max(auxiliary, na.rm = TRUE)
     }
     
     print(z)
@@ -91,25 +91,25 @@ while ((usedWeight<=z) & (j <= N)) {
   print(j)
   # start with the most valuable item and take as much 
   # of it as proposed by the dynamic programming solution
-
-   # for (i in 1 : x[z, ordering[j] + 1]){
-      
-      i <- 1
   
-      while ((usedWeight <= z ) & (i <= x[z, ordering[j] + 1]) & (usedWeight + w[ordering[j] ] <= z) ){
-      usedWeight <- usedWeight + w[ordering[j] ] 
+  # for (i in 1 : x[z, ordering[j] + 1]){
+  
+  i <- 1
+  
+  while ((usedWeight <= z ) & (i <= x[z, ordering[j] + 1]) & (usedWeight + w[ordering[j] ] <= z) ){
+    usedWeight <- usedWeight + w[ordering[j] ] 
     
-      xProgram[z, ordering[j]] <- xProgram[z, ordering[j]] + 1 
-        
-      i <- i + 1
-      }
-      
-      
-    #}
-  j <- j + 1
-
-}
+    xProgram[z, ordering[j]] <- xProgram[z, ordering[j]] + 1 
+    
+    i <- i + 1
+  }
   
+  
+  #}
+  j <- j + 1
+  
+}
+
 print(xProgram[z,])
 
 
