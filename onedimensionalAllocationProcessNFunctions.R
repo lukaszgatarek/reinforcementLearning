@@ -14,10 +14,10 @@ a[3] <- 3.3
 
 b[1] <- -1
 b[2] <- -4
-b[3] <- -8
+b[3] <- -6
 
 Delta <- 0.5
-X <- seq(0, 6, Delta)
+X <- seq(0, 4, Delta)
 
 plot(g(X, a[1], b[1]), type = 'l')
 lines(g(X, a[2], b[2]), col = 'red')
@@ -31,12 +31,12 @@ xnMaximizingFunction <- matrix(NA, R, N)
 # at the beginning we assume everything goes to the 1st function
 xnMaximizingFunction[,1] <- X
 
- f[,1] <- g(X, a[1], b[1])
+f[,1] <- g(X, a[1], b[1])
 
- for ( k in 2:N){
-   
-  for (l in 1:R){
+for ( k in 2:N){
   
+  for (l in 1:R){
+    
     print(paste('function evaluated for for x = ', toString(X[l])) )
     
     x <- X[l]
@@ -52,36 +52,36 @@ xnMaximizingFunction[,1] <- X
       }
     }
     
-      argMax <- which(auxiliaryRecord == max(auxiliaryRecord, na.rm = TRUE) )
-      
-      xnMaximizingFunction[l, k] <- max(X[argMax])
-      
-      if ( !( xnMaximizingFunction[l, k] == 0) ){
-        xnMaximizingFunction[l, k-1] <- 0
-      }
-      
-      # get the aux f[,2] value
-      f[l, k] <- max(auxiliaryRecord, na.rm = TRUE)
+    argMax <- which(auxiliaryRecord == max(auxiliaryRecord, na.rm = TRUE) )
+    
+    xnMaximizingFunction[l, k] <- max(X[argMax])
+    
+    if ( !( xnMaximizingFunction[l, k] == 0) ){
+      xnMaximizingFunction[l, k-1] <- 0
+    }
+    
+    # get the aux f[,2] value
+    f[l, k] <- max(auxiliaryRecord, na.rm = TRUE)
   }
- 
-}
- 
-   # check the obtained solution with the 
- #  plot(f[,1] + f[,2], col = 'red')
-   # against the original problem
-   
-   matplot(t(f), type = 'l')
-   
-   # the optimal vs the components
-   plot(f[,N])
   
-   lines( g(X, a[1], b[1]), col = 'blue')
-   lines( g(X, a[2], b[2]), col = 'red')
-   lines( g(X, a[3], b[3]), col = 'green')
-   lines(f[,N])
-   
-   print(xnMaximizingFunction)
-   
-   
-   
-   
+}
+
+# check the obtained solution with the 
+#  plot(f[,1] + f[,2], col = 'red')
+# against the original problem
+
+matplot(t(f), type = 'l')
+
+# the optimal vs the components
+plot(f[,N])
+
+lines( g(X, a[1], b[1]), col = 'blue')
+lines( g(X, a[2], b[2]), col = 'red')
+lines( g(X, a[3], b[3]), col = 'green')
+lines(f[,N])
+
+print(xnMaximizingFunction)
+
+
+
+
